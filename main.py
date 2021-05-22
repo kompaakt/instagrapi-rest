@@ -1,7 +1,7 @@
 import requests
 import tempfile
 import pkg_resources
-from typing import List, Optional
+from typing import List, Optional, Dict
 
 from pydantic import HttpUrl
 from fastapi import FastAPI, File, UploadFile, Form, HTTPException
@@ -12,7 +12,7 @@ from instagrapi import Client
 from instagrapi.exceptions import ClientError
 from instagrapi.story import StoryBuilder
 from instagrapi.types import (Media, Story, StoryHashtag, StoryLink,
-                              StoryLocation, StoryMention, StorySticker)
+                              StoryLocation, StoryMention, StorySticker, UserShort)
 from storages import ClientStorage
 
 
@@ -151,6 +151,15 @@ async def video_upload_to_story_by_url(sessionid: str = Form(...),
             locations=locations,
             stickers=stickers
         )
+    return result
+
+@app.post("/user/user_following")
+async def user_following(sessionid: str = Form(...), userId: str = Form(...), amount: int = Form(...)) -> Dict[int, UserShort]:
+    cl = clients.get(sessionid)
+    try:
+        result = cl.user_following(userId=userId, amount=amount)
+    except ClientError as e:
+        raise HTTPException(status_code=500, detail=str(e))
     return result
 
 
