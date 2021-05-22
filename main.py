@@ -154,10 +154,10 @@ async def video_upload_to_story_by_url(sessionid: str = Form(...),
     return result
 
 @app.post("/user/user_following")
-async def user_following(sessionid: str = Form(...), userId: str = Form(...), amount: int = Form(...)) -> Dict[int, UserShort]:
+async def user_following(sessionid: str = Form(...), userId: str = Form(...), amount: Optional[int] = Form(0)) -> Dict[int, UserShort]:
     cl = clients.get(sessionid)
     try:
-        result = cl.user_following(userId=userId, amount=amount)
+        result = cl.user_following(userId, amount)
     except ClientError as e:
         raise HTTPException(status_code=500, detail=str(e))
     return result
