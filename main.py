@@ -153,7 +153,7 @@ async def video_upload_to_story_by_url(sessionid: str = Form(...),
         )
     return result
 
-@app.post("/user/user_following")
+@app.post("/user/user_following", response_model=Dict[int, UserShort], tags=['user'])
 async def user_following(sessionid: str = Form(...), userId: str = Form(...), amount: Optional[int] = Form(0)) -> Dict[int, UserShort]:
     cl = clients.get(sessionid)
     try:
