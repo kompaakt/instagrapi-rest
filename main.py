@@ -165,10 +165,10 @@ async def user_following(sessionid: str = Form(...), userId: str = Form(...), am
 
 
 @app.get("/auth/login", tags=["auth"])
-async def auth_login(username: str = Form(...), password: str = Form(...), verification_code: Optional[str] = Form('')) -> str:
+async def auth_login(username: str = Form(...), password: str = Form(...), verification_code: Optional[str] = Form(''), proxy: Optional[str] = Form('')) -> str:
     """Login by username and password with 2FA
     """
-    cl = clients.client()
+    cl = clients.client(proxy)
     try:
         result = cl.login(username, password, verification_code=verification_code)
     except ClientError as e:

@@ -1,3 +1,4 @@
+from typing import  Optional
 from urllib import parse
 from instagrapi import Client
 
@@ -5,10 +6,10 @@ from instagrapi import Client
 class ClientStorage:
     storage = {}
 
-    def client(self):
+    def client(self, proxy: Optional[str] = ''):
         """Get new client (helper)
         """
-        cl = Client()
+        cl = Client(proxy=proxy)
         cl.request_timeout = 0.1
         return cl
 
