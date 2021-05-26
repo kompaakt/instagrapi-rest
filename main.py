@@ -130,7 +130,7 @@ async def video_upload_to_story_by_url(sessionid: str = Form(...),
     )
 
 
-@app.get("/auth/login", tags=["auth"])
+@app.post("/auth/login", tags=["auth"])
 async def auth_login(username: str = Form(...),
                      password: str = Form(...),
                      verification_code: Optional[str] = Form(''),
