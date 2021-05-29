@@ -139,6 +139,18 @@ async def auth_login(username: str = Form(...),
     """Login by username and password with 2FA
     """
     cl = clients.client(proxy)
+    cl.set_device({
+            "app_version": "169.3.0.30.135",
+            "android_version": 26,
+            "android_release": "8.0.0",
+            "dpi": "640dpi",
+            "resolution": "960 x 540",
+            "manufacturer": "Lenovo",
+            "device": "P770",
+            "model": "Lenovo P770",
+            "cpu": "qcom",
+            "version_code": "264009049",
+        })
     result = cl.login(
         username,
         password,
