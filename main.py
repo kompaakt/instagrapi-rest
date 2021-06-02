@@ -10,7 +10,7 @@ from starlette.responses import RedirectResponse, JSONResponse
 from instagrapi import Client
 from instagrapi.exceptions import ClientError
 from instagrapi.types import (Media, Story, StoryHashtag, StoryLink,
-                              StoryLocation, StoryMention, StorySticker, UserShort)
+                              StoryLocation, StoryMention, StorySticker, User, UserShort)
 from helpers import photo_upload_story, video_upload_story
 from storages import ClientStorage
 
@@ -159,6 +159,16 @@ async def auth_login(username: str = Form(...),
     if result:
         clients.set(cl)
         return cl.sessionid
+    return result
+
+
+@app.post("/user/user_info", response_model=Dict[int, User], tags=['user'])
+async def user_info(sessionid: str = Form(...), userId: str = Form(...)) -> User:
+    cl = clients.get(sessionid)
+    try:
+        result = cl.user_info(userId)
+    except ClientError as e:
+        raise HTTPException(status_code=500, detail=str(e))
     return result
 
 
