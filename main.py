@@ -162,7 +162,7 @@ async def auth_login(username: str = Form(...),
     return result
 
 
-@app.post("/user/user_info", response_model=Dict[int, User], tags=['user'])
+@app.post("/user/user_info", response_model=User, tags=['user'])
 async def user_info(sessionid: str = Form(...), userId: str = Form(...)) -> User:
     cl = clients.get(sessionid)
     try:
