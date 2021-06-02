@@ -166,7 +166,7 @@ async def auth_login(username: str = Form(...),
 async def user_info(sessionid: str = Form(...), userId: str = Form(...)) -> User:
     cl = clients.get(sessionid)
     try:
-        result = cl.user_info(userId)
+        result = cl.user_info(int(userId))
     except ClientError as e:
         raise HTTPException(status_code=500, detail=str(e))
     return result
